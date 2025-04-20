@@ -193,21 +193,25 @@ public class MonDNS {
                 if(buf[0] == '#') continue;
                 
                 //else it is probably a service, get the name and then get the service info by name
-                if((strSvc = Service.getServiceNameFromLine(buf)) != null){
-                    //ok, try getting the protocol
-                    Service svc = new Service();
-                    if(Service.getServiceByNameProto(svc, strSvc, "TCP")){
-                        //try and connect
-                        if(testConnect(svc, host)){
-                            reader.close();
-                            return true;
+                    if ((strSvc = Service.getServiceNameFromLine(buf)) != null) {
+                        // Populate service info based on name and TCP protocol
+                        Service svc = new Service();
+                        if (Service.getServiceByNameProto(svc, strSvc, "TCP")) {
+                            int port = svc.getPort();
+                            // Only test well-known ports (<1024)
+                            if (port > 0 && port < 1024) {
+                                if (testConnect(svc, host)) {
+                                    reader.close();
+                                    return true;
+                                }
+                            } else if (DEBUG) {
+                                System.out.println("Skipping service '" + strSvc + "' on port " + port);
+                            }
+                        } else {
+                            if (DEBUG) {
+                                System.out.println("Could not get Service by name: " + strSvc);
+                            }
                         }
-                        
-                    }else{
-                        if(DEBUG){
-                            System.out.println("Could not get Service by name:" + strSvc);
-                        }
-                    }
                 }else{
                     if(DEBUG){
                         System.out.println("Could not get Service Name from line:" + (new String(buf)));

@@ -1,0 +1,25 @@
+ # Sample configuration for MonDNS
+ 
+ # Path to the tiny DNS data file (lines starting with '+' or '-').
+ # Default: /etc/dns/config
+ tiny_dns_config=/etc/dns/config
+ 
+ # Base directory for tiny DNS where the rebuild command is executed.
+ # Default: /etc/dns
+ tiny_dns_base_dir=/etc/dns
+ 
+ # Command used to rebuild the tiny DNS database (e.g., make, tinydns-data).
+ # Default: make
+ tiny_dns_exec_cmd=make
+ 
+ # Path to the services file, used to lookup TCP service ports.
+ # Default: /etc/services
+ services_config=/etc/services
+ 
+ # Polling interval in milliseconds between health checks.
+ # Default: 10000
+ interval=10000
+ 
+ # Enable or disable debug logging (true/false).
+ # Default: true
+ debug=true

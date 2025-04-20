@@ -56,6 +56,22 @@ public class Service {
         this.protocol = protocol;
     }
     
+    /**
+     * Extract the service name from a line in the services file.
+     * Returns the first token (service name), or null if the line is empty or a comment.
+     */
+    public static String getServiceNameFromLine(char[] buf) {
+        // Convert buffer to a trimmed string
+        String line = new String(buf).trim();
+        // Skip empty lines or comments
+        if (line.isEmpty() || line.charAt(0) == '#') {
+            return null;
+        }
+        // Split on whitespace and return the first token
+        String[] parts = line.split("\\s+");
+        return (parts.length > 0) ? parts[0] : null;
+    }
+    
     public int getProtocol(){
         return this.protocol;
     }
